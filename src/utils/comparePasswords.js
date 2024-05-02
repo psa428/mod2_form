@@ -3,6 +3,7 @@ export function comparePasswords(str1, str2, setIsValid, setErrMessage, buttonRe
     let newError = null;
 
     if (str1 === str2) {
+        setErrMessage(newError);
         setIsValid(true);
         
     }    

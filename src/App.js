@@ -1,5 +1,5 @@
 import './App.css';
-import { useState, useRef} from 'react';
+import { useState, useRef, useEffect} from 'react';
 
 import { checkEmail } from './utils/checkEmail';
 import { checkPassword } from './utils/checkPassword';
@@ -24,6 +24,11 @@ function App() {
     event.preventDefault();
     sendFormData({ email, password });
   };
+
+  useEffect(() => {
+    if (isValid)
+      submitButtonRef.current.focus();
+  });
 
   return (
     <div className="App">
@@ -55,11 +60,11 @@ function App() {
             value={password_repeated}
             onChange={({ target }) => setPasswordRepeated(target.value)}
             onBlur={({ target }) => comparePasswords(target.value, password, setIsValid, setErrMessage, submitButtonRef)}
-            onKeyDown={(e) => { 
-              console.log(`e.key = ${e.key}`);
-              if (e.key === "Enter") 
-              submitButtonRef.current.focus();
-              }} 
+            // onKeyDown={(e) => { 
+            //   console.log(`e.key = ${e.key}`);
+            //   if (e.key === "Enter") 
+            //   submitButtonRef.current.focus();
+              // }} 
         />
         <button 
           ref={submitButtonRef}
