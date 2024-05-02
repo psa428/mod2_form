@@ -13,22 +13,30 @@ const sendFormData = (formData) => {
 
 
 function App() {
-  const [password, setPassword] = useState('');
-  const [password_repeated, setPasswordRepeated] = useState('');
-  const [email, setEmail] = useState('');
+  const [formData, setFormData] = useState({
+    email:  '',
+    password: '',
+    password_repeated:  '',
+
+  });
+  // const [password, setPassword] = useState('');
+  // const [password_repeated, setPasswordRepeated] = useState('');
+  // const [email, setEmail] = useState('');
   const [errMessage, setErrMessage] = useState(null);
   const [isValid, setIsValid] = useState(false);
   const submitButtonRef = useRef(null);
 
   const onSubmit = (event) => {
     event.preventDefault();
-    sendFormData({ email, password });
+    sendFormData(formData);
   };
 
   useEffect(() => {
     if (isValid)
       submitButtonRef.current.focus();
   });
+
+  const { email, password, password_repeated } = formData;
 
   return (
     <div className="App">
@@ -40,7 +48,11 @@ function App() {
             type="email"
             placeholder="Почта"
             value={email}
-            onChange={({ target }) => setEmail(target.value)}
+            onChange={({ target }) => setFormData({
+              ...formData,
+              email: target.value
+            }
+            )}
             onBlur={({target}) => checkEmail(target.value, setIsValid, setErrMessage)}
         />
         <input
@@ -49,7 +61,11 @@ function App() {
             type="password"
             placeholder="Пароль"
             value={password}
-            onChange={({ target }) => setPassword(target.value)}
+            onChange={({ target }) => setFormData({
+              ...formData,
+              password: target.value
+            }
+            )}
             onBlur={({target}) => checkPassword(target.value, setIsValid, setErrMessage)}
         />
         <input
@@ -58,13 +74,13 @@ function App() {
             type="password"
             placeholder="Повторно введите пароль"
             value={password_repeated}
-            onChange={({ target }) => setPasswordRepeated(target.value)}
+            onChange={({ target }) => setFormData({
+              ...formData,
+              password_repeated: target.value
+            }
+            )}
             onBlur={({ target }) => comparePasswords(target.value, password, setIsValid, setErrMessage, submitButtonRef)}
-            // onKeyDown={(e) => { 
-            //   console.log(`e.key = ${e.key}`);
-            //   if (e.key === "Enter") 
-            //   submitButtonRef.current.focus();
-              // }} 
+             
         />
         <button 
           ref={submitButtonRef}
